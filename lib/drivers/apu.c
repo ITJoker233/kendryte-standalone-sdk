@@ -149,15 +149,15 @@ void apu_set_delay(float radius, uint8_t mic_num_a_circle, uint8_t center)
 {
     uint8_t offsets[16][8];
     int i,j;
-    float seta[8], delay[8], hudu_jiao;
+    float theta[8], delay[8], radian_angle;
     float cm_tick = (float)SOUND_SPEED * 100 / I2S_FS;/*distance per tick (cm)*/
     float min;
 
     for (i = 0; i < mic_num_a_circle; ++i)
     {
-        seta[i] = 360 * i / mic_num_a_circle;
-        hudu_jiao = 2 * M_PI * seta[i] / 360;
-        delay[i] = radius * (1 - cos(hudu_jiao)) / cm_tick;
+        theta[i] = 360 * i / mic_num_a_circle;
+        radian_angle = 2 * M_PI * theta[i] / 360;
+        delay[i] = radius * (1 - cos(radian_angle)) / cm_tick;
     }
     if(center)
         delay[mic_num_a_circle] = radius / cm_tick;
@@ -174,9 +174,9 @@ void apu_set_delay(float radius, uint8_t mic_num_a_circle, uint8_t center)
     {
         for (i = 0; i < mic_num_a_circle; ++i)
         {
-            seta[i] -= 360 / DIRECTION_RES;
-            hudu_jiao = 2 * M_PI * seta[i] / 360;
-            delay[i] = radius * (1 - cos(hudu_jiao)) / cm_tick;
+            theta[i] -= 360 / DIRECTION_RES;
+            radian_angle = 2 * M_PI * theta[i] / 360;
+            delay[i] = radius * (1 - cos(radian_angle)) / cm_tick;
         }
         if(center)
             delay[mic_num_a_circle] = radius / cm_tick;
